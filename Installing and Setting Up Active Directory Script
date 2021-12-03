@@ -1,0 +1,23 @@
+#Variables for storing domain and netbios name#
+$DomainName = "lab.com"
+$NetBios = "LAB"
+
+#Installs Active Directory Services,the Gui management tool for Active directory, and the AD sub features#
+Install-windowsfeature AD-Domain-Services -IncludeManagementTools -IncludeAllSubFeature
+
+#Imports the ADD Module#
+Import-Module ADDSDeployment
+
+#Installs and Setups ADD Forest#
+Install-ADDSForest -DomainName $DomainName `
+                   -DomainNetbiosName $NetBios `
+                   -CreateDnsDelegation:$false `
+                   -DatabasePath "%SYSTEMROOT%\NTDS" `
+                   -DomainMode "WinThreshold" `
+                   -ForestMode "WinThreshold" `
+                   -InstallDns:$true `
+                   -LogPath "%SYSTEMROOT%\NTDS" `
+                   -NoRebootOnCompletion:$false `
+                   -SysvolPath “%SYSTEMROOT%\SYSVOL” `
+                   -Force:$true
+                   
