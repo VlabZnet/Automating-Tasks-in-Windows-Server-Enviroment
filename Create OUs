@@ -1,0 +1,11 @@
+#Imports CSV file to variable#
+$OUs = Import-csv C:\ous.csv -Delimiter ","
+
+foreach ($OU in $OUs){
+    $Name = $OU.'Name'
+    $Path = $OU.'Path'
+
+    New-ADOrganizationalUnit `
+        -Name $Name `
+        -Path $Path  
+}
